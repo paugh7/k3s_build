@@ -1,0 +1,21 @@
+---
+# Source: actions-runner-controller/templates/controller.metrics.service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    helm.sh/chart: actions-runner-controller-0.15.1
+    app.kubernetes.io/name: actions-runner-controller
+    app.kubernetes.io/instance: runner
+    app.kubernetes.io/version: "0.20.3"
+    app.kubernetes.io/managed-by: Helm
+  name: runner-actions-runner-controller-metrics-service
+  namespace: default
+spec:
+  ports:
+  - name: metrics-port
+    port: 8443
+    targetPort: metrics-port
+  selector:
+    app.kubernetes.io/name: actions-runner-controller
+    app.kubernetes.io/instance: runner

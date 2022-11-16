@@ -1,0 +1,162 @@
+---
+# Source: actions-runner-controller/templates/webhook_configs.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: runner-actions-runner-controller-mutating-webhook-configuration
+  annotations:
+    cert-manager.io/inject-ca-from: default/runner-actions-runner-controller-serving-cert
+webhooks:
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: runner-actions-runner-controller-webhook
+      namespace: default
+      path: /mutate-actions-summerwind-dev-v1alpha1-runner
+  failurePolicy: Fail
+  name: mutate.runner.actions.summerwind.dev
+  rules:
+  - apiGroups:
+    - actions.summerwind.dev
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - runners
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: runner-actions-runner-controller-webhook
+      namespace: default
+      path: /mutate-actions-summerwind-dev-v1alpha1-runnerdeployment
+  failurePolicy: Fail
+  name: mutate.runnerdeployment.actions.summerwind.dev
+  rules:
+  - apiGroups:
+    - actions.summerwind.dev
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - runnerdeployments
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: runner-actions-runner-controller-webhook
+      namespace: default
+      path: /mutate-actions-summerwind-dev-v1alpha1-runnerreplicaset
+  failurePolicy: Fail
+  name: mutate.runnerreplicaset.actions.summerwind.dev
+  rules:
+  - apiGroups:
+    - actions.summerwind.dev
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - runnerreplicasets
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: runner-actions-runner-controller-webhook
+      namespace: default
+      path: /mutate-runner-set-pod
+  failurePolicy: Fail
+  name: mutate-runner-pod.webhook.actions.summerwind.dev
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    resources:
+    - pods
+  sideEffects: None
+  objectSelector:
+    matchLabels:
+      "actions-runner-controller/inject-registration-token": "true"
+---
+# Source: actions-runner-controller/templates/webhook_configs.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: runner-actions-runner-controller-validating-webhook-configuration
+  annotations:
+    cert-manager.io/inject-ca-from: default/runner-actions-runner-controller-serving-cert
+webhooks:
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: runner-actions-runner-controller-webhook
+      namespace: default
+      path: /validate-actions-summerwind-dev-v1alpha1-runner
+  failurePolicy: Fail
+  name: validate.runner.actions.summerwind.dev
+  rules:
+  - apiGroups:
+    - actions.summerwind.dev
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - runners
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: runner-actions-runner-controller-webhook
+      namespace: default
+      path: /validate-actions-summerwind-dev-v1alpha1-runnerdeployment
+  failurePolicy: Fail
+  name: validate.runnerdeployment.actions.summerwind.dev
+  rules:
+  - apiGroups:
+    - actions.summerwind.dev
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - runnerdeployments
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: runner-actions-runner-controller-webhook
+      namespace: default
+      path: /validate-actions-summerwind-dev-v1alpha1-runnerreplicaset
+  failurePolicy: Fail
+  name: validate.runnerreplicaset.actions.summerwind.dev
+  rules:
+  - apiGroups:
+    - actions.summerwind.dev
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - runnerreplicasets
+  sideEffects: None
