@@ -1,0 +1,22 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: kellys-runner-deployment
+spec:
+  template:
+    spec:
+      repository: paugh7/Testing
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: kellys-runner-deployment-autoscaler
+spec:
+  scaleTargetRef:
+    name: kellys-runner-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+    repositoryNames:
+    - paugh7/Testing

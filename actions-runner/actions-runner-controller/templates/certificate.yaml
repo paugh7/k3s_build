@@ -1,0 +1,27 @@
+---
+# Source: actions-runner-controller/templates/certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: runner-actions-runner-controller-serving-cert
+  namespace: default
+spec:
+  dnsNames:
+  - runner-actions-runner-controller-webhook.default.svc
+  - runner-actions-runner-controller-webhook.default.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: runner-actions-runner-controller-selfsigned-issuer
+  secretName: runner-actions-runner-controller-serving-cert
+---
+# Source: actions-runner-controller/templates/certificate.yaml
+# The following manifests contain a self-signed issuer CR and a certificate CR.
+# More document can be found at https://docs.cert-manager.io
+# WARNING: Targets CertManager 0.11 check https://docs.cert-manager.io/en/latest/tasks/upgrading/index.html for breaking changes
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: runner-actions-runner-controller-selfsigned-issuer
+  namespace: default
+spec:
+  selfSigned: {}

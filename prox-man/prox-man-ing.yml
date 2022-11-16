@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prox-man
+  namespace: default
+spec:
+  rules:
+  - host: prox.yeetbox.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: prox-man
+            port:
+              number: 81
